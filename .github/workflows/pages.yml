@@ -29,26 +29,10 @@ jobs:
         with:
           enablement: true
 
-      - name: Prepara sito SAVT
-        shell: bash
-        run: |
-          rm -rf _site
-          mkdir -p _site/assets _site/archivio/2026-08-10-16
-          touch _site/.nojekyll
-
-          base64 -d site-src/index.html.gz.b64 | gzip -d > _site/index.html
-          base64 -d site-src/archive-index.html.gz.b64 | gzip -d > _site/archivio/index.html
-          base64 -d site-src/2026-08-10-16.html.gz.b64 | gzip -d > _site/archivio/2026-08-10-16/index.html
-
-          base64 -d assets-src/logo.webp.b64 > _site/assets/logo.webp
-          base64 -d assets-src/europa.webp.b64 > _site/assets/europa.webp
-          base64 -d assets-src/italia.webp.b64 > _site/assets/italia.webp
-          base64 -d assets-src/valle.webp.b64 > _site/assets/valle.webp
-
       - name: Carica sito
         uses: actions/upload-pages-artifact@v3
         with:
-          path: '_site'
+          path: '.'
 
       - name: Pubblica
         id: deployment
