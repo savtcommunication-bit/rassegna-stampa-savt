@@ -1,0 +1,1 @@
+La grafica del sito usa risorse leggere e responsive per desktop e mobile.
