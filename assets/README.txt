@@ -1,0 +1,1 @@
+Asset grafici ottimizzati della rassegna stampa SAVT.
