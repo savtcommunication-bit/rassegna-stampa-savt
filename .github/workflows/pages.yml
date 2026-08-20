@@ -29,6 +29,106 @@ jobs:
         with:
           enablement: true
 
+      - name: Applica revisione grafica
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          css = r'''
+          /* SAVT UI v2 */
+          h1,
+          .section-kicker h2,
+          .contracts h2,
+          .watch h2,
+          .archive-box h2 {
+            font-family: Arial, Helvetica, sans-serif !important;
+          }
+
+          .topbar {
+            display: block !important;
+            padding: 12px 18px 13px !important;
+            font-size: inherit !important;
+          }
+          .topbar > div:first-child {
+            font-size: 20px !important;
+            line-height: 1.15 !important;
+            font-weight: 900 !important;
+            letter-spacing: .01em !important;
+          }
+          .topbar > div:last-child {
+            margin-top: 4px !important;
+            font-size: 12px !important;
+            line-height: 1.35 !important;
+            font-weight: 600 !important;
+            opacity: .88 !important;
+          }
+
+          .logo {
+            width: 100px !important;
+            height: auto !important;
+            object-fit: contain !important;
+            background: transparent !important;
+            border: 0 !important;
+            border-radius: 0 !important;
+            padding: 0 !important;
+            box-shadow: none !important;
+          }
+
+          h1 {font-size: 38px !important; line-height: 1.05 !important;}
+          .intro {font-size: 17px !important; line-height: 1.6 !important;}
+          .section-kicker h2 {font-size: 24px !important;}
+          .top-title {font-size: 25px !important; line-height: 1.18 !important;}
+          .banner h2 {font-size: 30px !important;}
+          .article h3 {font-size: 28px !important; line-height: 1.18 !important;}
+          .article p {font-size: 17px !important; line-height: 1.65 !important;}
+          .contracts h2 {font-size: 28px !important; line-height: 1.15 !important;}
+          .watch h2, .archive-box h2 {font-size: 25px !important;}
+          .watch li {font-size: 17px !important; line-height: 1.6 !important;}
+
+          @media (max-width:700px) {
+            .topbar {padding: 12px 16px 13px !important;}
+            .topbar > div:first-child {font-size: 22px !important;}
+            .topbar > div:last-child {font-size: 13px !important; margin-top: 3px !important;}
+            .logo {width: 82px !important; height: auto !important;}
+            h1 {font-size: 34px !important; line-height: 1.05 !important;}
+            .subtitle {font-size: 20px !important;}
+            .intro {font-size: 19px !important; line-height: 1.58 !important;}
+            .section-kicker h2 {font-size: 26px !important;}
+            .section-note {font-size: 15px !important; line-height: 1.5 !important;}
+            .territory {font-size: 16px !important; padding: 8px 12px !important;}
+            .meta {font-size: 16px !important; line-height: 1.5 !important;}
+            .top-title {font-size: 32px !important; line-height: 1.18 !important;}
+            .jump {font-size: 17px !important;}
+            .banner h2 {font-size: 30px !important;}
+            .article h3 {font-size: 34px !important; line-height: 1.18 !important;}
+            .article p {font-size: 20px !important; line-height: 1.62 !important;}
+            .badge {font-size: 14px !important;}
+            .pay-summary .label {font-size: 14px !important;}
+            .why strong {font-size: 19px !important;}
+            .cta {font-size: 18px !important;}
+            .contracts h2 {font-size: 30px !important;}
+            .contracts p {font-size: 18px !important;}
+            .contracts a {font-size: 20px !important; line-height: 1.55 !important;}
+            .watch h2, .archive-box h2 {font-size: 28px !important;}
+            .watch li {font-size: 19px !important; line-height: 1.6 !important;}
+            .archive-link {font-size: 18px !important;}
+            .footer {font-size: 15px !important;}
+          }
+          '''
+
+          for path in [
+              Path('index.html'),
+              Path('archivio/2026-08-10-16/index.html'),
+              Path('archivio/index.html'),
+          ]:
+              if not path.exists():
+                  continue
+              text = path.read_text(encoding='utf-8')
+              text = text.replace('</head>', f'<style>{css}</style></head>')
+              path.write_text(text, encoding='utf-8')
+          PY
+
       - name: Carica sito
         uses: actions/upload-pages-artifact@v3
         with:
